@@ -1,0 +1,101 @@
+﻿@page "/"
+@if (locations == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+<div class="" id="dutyinfo">
+    <h3>@(((DateTime)BindValue).ToString("yyyy-MM-dd")) 在班人员信息</h3>
+    <EditForm Model="@personOnDutyInfo" OnValidSubmit="@GetDutyInfoAsyn">
+        <Row ItemsPerRow="ItemsPerRow.Six">
+            <Row ColSpan="2">
+                <Select Color="BootstrapBlazor.Components.Color.Success" Items="Items" OnSelectedItemChanged="OnItemChanged"
+                        @bind-Value="personOnDutyInfo.Location" />
+            </Row>
+            <Row ColSpan="2">
+                <DateTimePicker TValue="DateTime?" Value="BindValue" ValueChanged="@DateTimeValueChanged"
+                                Placement="Placement.Right" />
+            </Row>
+            <Button IsOutline="true" Text="生成" IsAsync="true" Icon="fa fa-fw fa-fa" OnClick="@GetDutyInfoAsyn" />
+            <Button Text="复制" OnClick="@OnClickToCopy" />
+        </Row>
+        <Textarea placeholder="content" rows="15" @bind-Value="@DutyinfoMessage" />
+    </EditForm>
+</div>
+
+}
+@code {
+    private string APIPath = "https://webapi.fursion.cn";
+    private PersonOnDutyInfoModel personOnDutyInfo = new();
+    private DateTime? BindValue { get; set; } = DateTime.Today;
+    private string[] locations;
+    private IEnumerable<SelectedItem> Items { get; set; }
+    private SelectedItem Selected { get; set; }
+    private string DutyinfoMessage = "";
+    private long MaxfileSize = 1024 * 1024 * 100;
+    private string BindValueString
+    {
+        get
+        {
+            return BindValue.HasValue ? BindValue.Value.ToString("yyyy-MM-dd") : "";
+        }
+        set
+        {
+            if (DateTime.TryParse(value, out var d))
+            {
+                BindValue = d;
+            }
+            else
+            {
+                BindValue = DateTime.Today;
+            }
+        }
+    }
+    private async Task OnClickToCopy()
+    {
+        await JavaScriptRuntim.InvokeVoidAsync("clipboardCopy.copyText", DutyinfoMessage);
+    }
+    private Task OnItemChanged(SelectedItem selected)
+    {
+        personOnDutyInfo.Location=selected.Value.Split(',');
+        System.Console.WriteLine(selected.Text + " " + selected.Value);
+        return Task.CompletedTask;
+    }
+    private Task DateTimeValueChanged(DateTime? d)
+    {
+        BindValue = d;
+        personOnDutyInfo.SelectTime = (DateTime)BindValue;
+        return Task.CompletedTask;
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        locations = await Http.GetFromJsonAsync<string[]>($"{APIPath}/api/DutyInfo/GetSiteInfo");
+        var arry = new SelectedItem[locations.Length];
+        for (int i = 0; i < locations.Length; i++)
+        {
+            arry[i] = new SelectedItem(locations[i], locations[i]);
+        }
+        personOnDutyInfo.Location = locations;
+        Items = arry;
+    }
+    private async Task GetDutyInfoAsyn()
+    {
+        personOnDutyInfo.SelectTime = (DateTime)BindValue;//规避DateTimeSelect没有选择时未同步时间
+        var responseMessage = await Http.PostAsJsonAsync<PersonOnDutyInfoModel>($"{APIPath}/api/Dutyinfo/Getinfo", personOnDutyInfo);
+        var data = await responseMessage.Content.ReadFromJsonAsync<PersonOnDutyInfoModel>();
+        DutyinfoMessage = "";
+        DutyinfoMessage += data.Message;
+        foreach (var item in data.Infos)
+        {
+            DutyinfoMessage += item + "\n";
+        }
+    }
+    public class PersonOnDutyInfoModel
+    {
+        public DateTime SelectTime { get; set; }
+        public string[] Location { get; set; }
+        public List<string> Infos { get; set; }
+        public string Message { get; set; }
+    }
+}

@@ -1,0 +1,10 @@
+@if(Loadcomplete){
+    
+}
+else{
+    <p><em> file Processing!</em></p>
+}
+@code {
+    private string filepath { get; set; }
+    private bool Loadcomplete { get; set; } = false;
+}
