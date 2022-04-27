@@ -7,6 +7,7 @@
     <title>ITWebToolsUI</title>
     <base href="/" />
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="_content/BootstrapBlazor/css/bootstrap.blazor.bundle.min.css">
     <link href="css/app.css" rel="stylesheet" />
     <link href="ITWebToolsUI.styles.css" rel="stylesheet" />
 </head>
@@ -20,6 +21,18 @@
         <a class="dismiss">🗙</a>
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
+    <script src="_content/BootstrapBlazor/js/bootstrap.blazor.bundle.min.js"></script>
+    <script>window.clipboardCopy = {
+            copyText: function (text) {
+                navigator.clipboard.writeText(text).then(function () {
+                    alert("复制成功");
+                    console.log(text);
+                })
+                    .catch(function (error) {
+                        alert(error);
+                    });
+            }
+        };</script>
 </body>
 
 </html>
