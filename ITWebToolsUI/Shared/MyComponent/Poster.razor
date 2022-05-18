@@ -1,13 +1,27 @@
-﻿<h1>@Title</h1>
-<div class="poster" id="poster" style="width: 180px; height: 350px; background-color: red; border-radius: 10px;">
-    <div class="headimage" style="width: 180px; height: 150px; background-color: blue; border-radius: 10px;">
-        <img style="width: 180px; height: 150px; background-color: blue; border-radius: 10px;" src="@headimageurl" />
+﻿<div class="poster" id="poster">
+    <div class="headimage">
+        <img style="width: 230px; height: 150px; background-color: white;"
+             src=@Info.Url />
     </div>
-    <div class="Info" style="width: 180px; height: 200px; background-color: blue; border-radius: 10px;"></div>
+    <div class="display-card">
+        <div class="display-info" id="info-name_tag">
+            <div class="display-label">@Info.Name</div>
+        </div>
+        <div class="display-info" id="WorkTime_tag">
+            <div class="display-label">在班时间</div>
+            <div class="display-content">08:30-17:30</div>
+        </div>
+        <div class="display-info">
+            <div class="display-label">状态</div>
+            <div class="display-content">statu</div>
+        </div>
+        <div class="display-info">
+            <div class="display-label">电话:</div>
+            <div class="display-content">@Info.PhoneNamber</div>
+        </div>
+    </div>
 </div>
 @code {
     [Parameter]
-    public string Title { get; set; } = "";
-    [Parameter]
-    public string headimageurl { get; set; } = "";
+    public StaffInfo Info { get; set; } = new StaffInfo();
 }

@@ -1,0 +1,12 @@
+﻿.it-displaypad-head {
+    background-color: burlywood;
+    display: flex;
+    justify-content: center;
+}
+.it-displaypad-title {
+    font-size: 32px;
+    color: cadetblue;
+}
+.it-displaypad-Infos {
+    display: flex;
+}
