@@ -1,6 +1,11 @@
-﻿<h3>Component1</h3>
+﻿@page "/"
+<h3>TOOL</h3>
 <ITWebToolsUI.Shared.MyComponent.InfoOfPersonOnDuty></ITWebToolsUI.Shared.MyComponent.InfoOfPersonOnDuty>
+<Button OnClick="@test">控制测试</Button>
 @code {
-
+    public void test()
+    {
+        Count.test();
+    }
 }
 

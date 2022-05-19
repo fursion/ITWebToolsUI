@@ -4,22 +4,39 @@
     <div class="it-displaypad-head">
         <div class="it-displaypad-title">IT Personnel Information</div>
     </div>
-    StaffInfo staffInfo = new StaffInfo();
-    staffInfo.Url = "https://tse1-mm.cn.bing.net/th/id/R-C.901f8ebdab22d065baefeae6c2701cc0?rik=Z3Hew18zFaF%2bLQ&riu=http%3a%2f%2fwww.pp3.cn%2fuploads%2f20120418lw%2f13.jpg&ehk=Es5ZGH90h%2foCghvlIwdKfUiqpO05gLSgOEBU2i0Mwok%3d&risl=&pid=ImgRaw&r=0";
-    staffInfo.Name = "fursion";
-    staffInfo.PhoneNamber = "153 9772 4938";
-<div class="it-displaypad-Infos">
-    <ITWebToolsUI.Shared.MyComponent.Poster Info=@staffInfo></ITWebToolsUI.Shared.MyComponent.Poster>
-    <ITWebToolsUI.Shared.MyComponent.Poster Info=@staffInfo></ITWebToolsUI.Shared.MyComponent.Poster>
-    <ITWebToolsUI.Shared.MyComponent.Poster Info=@staffInfo></ITWebToolsUI.Shared.MyComponent.Poster>
-    <ITWebToolsUI.Shared.MyComponent.Poster Info=@staffInfo></ITWebToolsUI.Shared.MyComponent.Poster>
-    <ITWebToolsUI.Shared.MyComponent.Poster Info=@staffInfo></ITWebToolsUI.Shared.MyComponent.Poster>
-    <ITWebToolsUI.Shared.MyComponent.Poster Info=@staffInfo></ITWebToolsUI.Shared.MyComponent.Poster>
-</div>
+
+
+    <div class="it-displaypad-Infos">
+        @{ for (int i = 0; i < 5; i++)
+            {
+                StaffInfo staffInfo = new StaffInfo();
+                staffInfo.Url = "https://tse1-mm.cn.bing.net/th/id/R-C.901f8ebdab22d065baefeae6c2701cc0?rik=Z3Hew18zFaF%2bLQ&riu=http%3a%2f%2fwww.pp3.cn%2fuploads%2f20120418lw%2f13.jpg&ehk=Es5ZGH90h%2foCghvlIwdKfUiqpO05gLSgOEBU2i0Mwok%3d&risl=&pid=ImgRaw&r=0";
+                staffInfo.Name = "fursion";
+                staffInfo.PhoneNamber = "153 9772 4938";
+                staffInfo.UUID = System.Guid.NewGuid().ToString();
+                staffInfo.id = i;
+                Count.staffs.Add(staffInfo);
+                <ITWebToolsUI.Shared.MyComponent.Poster Info=@staffInfo Ref=@Rf></ITWebToolsUI.Shared.MyComponent.Poster>
+            }
+        }
+    </div>
 
 }
 
-@code {
+@code
+{
+    protected override  void OnAfterRender(bool firstRender)
+    {
+        Count.test();
+        foreach(var component in Count.list)
+        {
+            
+        }
+        base.OnAfterRender(firstRender);
+    }
+    public void Rf()
+    {
 
+    }
 }
 

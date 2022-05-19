@@ -16,8 +16,10 @@
   <ItemGroup>
     <None Remove="BootstrapBlazor" />
     <None Remove="Moudle\" />
+    <None Remove="Con\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Moudle\" />
+    <Folder Include="Controller\" />
   </ItemGroup>
 </Project>

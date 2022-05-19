@@ -8,20 +8,58 @@
             <div class="display-label">@Info.Name</div>
         </div>
         <div class="display-info" id="WorkTime_tag">
-            <div class="display-label">在班时间</div>
-            <div class="display-content">08:30-17:30</div>
+            <div class="display-label">Time</div>
+            <div class="display-content">@Info.WorkTime</div>
         </div>
         <div class="display-info">
             <div class="display-label">状态</div>
+            <div class="display-content @StatuColor "></div>
             <div class="display-content">statu</div>
         </div>
         <div class="display-info">
-            <div class="display-label">电话:</div>
+            <div class="display-label">电话</div>
             <div class="display-content">@Info.PhoneNamber</div>
+        </div>
+        <div class="display-info">
+            <div class="qrcode-card">
+                <img class="qrcode-card" src="https://qr.api.cli.im/newqr/create?data=ceshi1&level=H&transparent=false&bgcolor=%23FFFFFF&forecolor=%23000000&blockpixel=12&marginblock=1&logourl=&logoshape=no&size=500&kid=cliim&key=9b255c08ff9378d1e3133d2a9087888e">
+            </div>
+        </div>
+        <div class="display-info">
+            <Button class="showText" OnClick="@Ref"></Button>
+        </div>
+        <div class="display-info">
+            <div class="display-label">电话</div>
+            <div class="display-content">@Info.UUID</div>
+        </div>
+        <div class="display-info">
+            <div class="display-label">电话</div>
+            <div class="display-content">@Info.id</div>
         </div>
     </div>
 </div>
 @code {
     [Parameter]
+    public string cardId { get; set; }
+    [Parameter]
     public StaffInfo Info { get; set; } = new StaffInfo();
+    private string StatuColor { get; set; } = "red";
+    [Parameter]
+    public Action Ref { get; set; }
+    private void SetStatuColor()
+    {
+        StatuColor = "radius";
+    }
+    protected override Task OnInitializedAsync()
+    {
+        cc bcc = new cc(this);
+        return base.OnInitializedAsync();
+    }
+    class cc
+    {
+        public cc(object o)
+        {
+            Count.list.Add(o);
+        }
+    }
 }
