@@ -8,5 +8,8 @@ namespace ITWebToolsUI.Moudle
 		public string Name { get; set; }
 		public string PhoneNamber { get; set; }
 	}
+	public struct schedule {
+		
+	}
 }
 
